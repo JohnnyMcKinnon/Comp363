@@ -1,0 +1,150 @@
+"""
+Jonathan(Johnny) McKinnon
+Comp363 - Assignment 2 - Faster Multiplication
+    Implemented base code for divide-and-conquer algorithm that
+splits each number into halves and performs four recursive multiplications.
+I then implemented Karatsuba’s improvement, which reduces the number of
+recursive multiplications from four to three;
+(from: [ac, ad, bc, bd] to [ac, bd, (a+b)*(c+d)]) 
+This makes larger integer multiplication (specifically 256+) significantly faster.
+"""
+
+def add_strints(x: str, y: str) -> str:
+    """
+    Add two nonnegative integer strings by converting to int.
+    This method can be rewritten as a sum/carry adder for a
+    single digit addition, pulling characters from the
+    input strings. For simplicity now, we just convert the
+    whole string to integer, do the addition, and then
+    convert the number back to string.
+    """
+    return str(int(x) + int(y))
+
+
+def simple_recursive_multiplication(x: str, y: str) -> str:
+    """
+    Recursive multiplication for nonnegative integer strings.
+    Assumptions:
+      - len(x) == len(y)
+      - len(x) is a power of two
+      - x and y contain only digits
+    Uses:
+      xy = ac*10^n + (ad + bc)*10^(n/2) + bd
+    """
+    # Number of digits in x, y
+    n = len(x)
+
+    # Base case: (1-digit multiplication)
+    if n == 1:
+        return str(int(x) * int(y))
+# Middle of x, y for splitting them in left/right halves
+    m = n // 2
+
+     # Divide x, y into left/right halves
+    a = x[:m]
+    b = x[m:]
+    c = y[:m]
+    d = y[m:]
+
+   # Compute the partial solution
+    ac = simple_recursive_multiplication(a, c)
+    ad = simple_recursive_multiplication(a, d)
+    bc = simple_recursive_multiplication(b, c)
+    bd = simple_recursive_multiplication(b, d)
+# Conquer the partial solutions
+    ad_plus_bc = add_strints(ad, bc)
+# Multiply by powers of 10 via appending zeros (string shift).
+    term1 = ac + ("0" * n)
+    term2 = ad_plus_bc + ("0" * m)
+# Final sum (Using int conversion for addition to keep things simple)
+    return str(int(term1) + int(term2) + int(bd))
+
+
+
+
+
+#Johnny McKinnon
+"""
+    -Non-negative integer strings multiplication --> Karatsuba's algorithm.
+      xy = ac*10^n + ((a+b)(c+d) - ac - bd)*10^(n/2) + bd
+    Only have to compute (AC), (BD) and (a+b)(c+d) recursively.
+    """
+def karatsuba_recursive_multiplication(x: str, y: str) -> str:
+    n = len(x)
+
+    # Base case
+    if n == 1:
+        return str(int(x) * int(y))
+
+    m = n // 2
+
+    a = x[:m]
+    b = x[m:]
+    c = y[:m]
+    d = y[m:]
+
+    # Only three recursive multiplications
+    ac = karatsuba_recursive_multiplication(a, c)
+    bd = karatsuba_recursive_multiplication(b, d)
+
+    a_plus_b = add_strints(a, b)
+    c_plus_d = add_strints(c, d)
+
+    # Zero-padding keeps recursive calls well-formed
+    a_plus_b = a_plus_b.zfill(m)
+    c_plus_d = c_plus_d.zfill(m)
+
+    ab_cd = karatsuba_recursive_multiplication(a_plus_b, c_plus_d)
+
+    # Subtracting ac and bd leaves only ad + bc
+    cross_term = str(int(ab_cd) - int(ac) - int(bd))
+
+    term1 = ac + ("0" * n)
+    term2 = cross_term + ("0" * m)
+
+    return str(int(term1) + int(term2) + int(bd))
+
+
+# --- quick sanity checks ---
+if __name__ == "__main__":
+    tests = [
+        ("12", "34"),
+        ("99", "99"),
+        ("0123", "0456"),
+        ("1234", "5678"),
+        ("0000", "0000"),
+        ("1111", "0001"),
+        ("1234567890123456", "9876543210123456"),
+        ("12345678901234561234567890123456", "12345678901234561234567890123456"),
+        ("1234567890123456123456789012345612345678901234561234567890123456", "1234567890123456123456789012345612345678901234561234567890123456"),
+    ]
+
+    for x, y in tests:
+        simple = simple_recursive_multiplication(x, y)
+        kara = karatsuba_recursive_multiplication(x, y)
+        want = str(int(x) * int(y))
+
+        print(f"{x} * {y}")
+        print(f"Simple:    {simple} (ok={simple == want})")
+        print(f"Karatsuba: {kara} (ok={kara == want})\n")
+#tests BOTH multiplication functions against known correct results
+
+
+"""
+#Written portion of hmwk:
+Simple recursive multiplication algorithm - splits problem of size n into
+FOUR smaller problems of size n/2. Time complexity of O(n^2)
+
+Karatsuba’s algorithm - splits problem of size n into THREE smaller problems. 
+Time complexity of O(n^log2(3)). (Scales better for larger integers)
+
+Theory-
+*8-32 digits: the simple method is faster because it has less extra work
+(Because of overhead of extra additions and subtractions in Karatsuba algorithm).
+*64-128 digits: both methods are comparable in speed.
+*256+ digits: Karatsuba is significantly faster.
+
+How I dealt with numbers of different lengths:
+Add zeros to the front of the shorter number to match length.
+If the length isn’t a power of two, pad both numbers up to 
+NEXT power of two before starting (2 4 8 16 32 64 128 256 512 etc).

@@ -1,0 +1,31 @@
+#Comp363 - Assignment 2 - Time Comparison of Multiplication Algorithms
+#Jonathan(Johnny) McKinnon
+import time
+import random
+
+# Generate an n-digit random number (string)
+def random_number_string(n):
+    return "".join(str(random.randint(0, 9)) for _ in range(n))
+
+print("Digits | Divide-and-Conquer | Karatsuba")
+print("---------------------------------------")
+
+
+for exponent in range(4, 11): # 16, 32, 64, 128, 256, 512, 1024 
+    n = 2 ** exponent
+    # Two random numbers with same digits
+    num1 = random_number_string(n)
+    num2 = random_number_string(n)
+
+ # Time the Divide-and-Conquer Algorithm
+    start = time.time()
+    simple_recursive_multiplication(num1, num2)
+    simple_time = time.time() - start
+
+ # Time the Karatsuba Algorithm
+    start = time.time()
+    karatsuba_multiplication(num1, num2)
+    karatsuba_time = time.time() - start
+
+# Results
+    print(f"{n:6d} | {simple_time:10.6f} | {karatsuba_time:12.6f}")
