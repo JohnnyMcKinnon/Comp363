@@ -1,7 +1,31 @@
 #Johnny McKinnon
 
-Reflections of assignment1: 
+#####Reflections of assignment1: 
+#My submission was similar to that of the posted solution in terms of;
+#1-Recursion setup was 2T(n/2)[for each half sorted]+ f(n)[linear time traversal]
+#2-Proper tree recursion followed formula 2^k T(n/2^k)+[sum of work for n-1 to initial]
+#3-Identity of tree height was equal to log[base 2]n and subproblem=(n/2^k)=1
+#4-Time complextiy of each level=2^k*(n/2^k=n) with logn levels==nlogn
 
-Reflections of assignment2: 
+#####Reflections of assignment2: 
+#My submission was similar to the posted solution in terms of:
+#1-Simple recursion- O(n^2) time complexity compared to Karatsuba- O(n^1.585)time complexity
+#Simple recusion used 4 branches per level compared to 3 branches per level
+#Branching factor controls the exponent
+#Explicit code determining speed of both algorithms: 
+#for exponent in range(4, 11):
+#n = 2 ** exponent
+#Broke down specific numbers for speed on algorithms: 
+##8-32 digits: simple is faster
+##64-128: digits: both are similar in speeds
+##256+ digits: Karatsuba is significantly faster
+#Padded numbers equally to next closest ^2 
+#Karatsuba's formula correctly implemented-(a+b)(c+d)-ac-bd=ad+bc
 
-Reflections of assignment3: 
+#####Reflections of Assignment3:
+#My submission was similar to the posted solution in terms of:
+#Chose DFS using a stack and correctly implemeneted for graph traversal
+#correct demonstration of visited arrays: visited = [False] * len(G)-if not visited[v]
+#count_components identifies untraversed vertices=new connected components
+#Time complexity=O(n) per vertex +(n^2)for traversal
+#Implemented a lot of what was discussed in class + answer key submission
