@@ -1,0 +1,44 @@
+Johnny McKinnon
+Leo Irakliotis
+Comp363 Spring semester
+                                Final Reflection:
+This semester has significantly improved my understanding of how algorithm design 
+affects both theoretical efficiency and real-world performance. One of the most 
+important things I learned was how different paradigms like divide-and-conquer 
+or dynamic programming approaches problem solving in fundamentally different ways. 
+Before this course, I understood recursion at a very basic level, but implementing 
+algorithms like Karatsuba multiplication made me see how reducing even a single 
+recursive call per level can dramatically change time complexity. Reducing the 
+number of recursive multiplications from four to three lowers the time complexity 
+from quadratic growth, and testing it with large inputs makes the performance 
+difference much more concrete.
+A part of the course I found interesting was comparing algorithms experimentally. 
+Timing the divide-and-conquer multiplication against Karatsuba showed clearly that 
+simpler algorithms can outperform more advanced ones at small input sizes due to 
+overhead, but lose badly as input size grows. I had a similar experience when 
+comparing Borůvka and Kruskal for minimum spanning trees. Seeing Borůvka’s 
+implementation scale poorly due to repeated full-graph scans while Kruskal 
+remained efficient helped reinforce the importance of data structures like 
+union-find and the idea that implementation details matter just as much as 
+high-level design. 
+I also enjoyed working with graph algorithms like DFS for 
+reachability and connected components, as well as shortest path algorithms in DAGs. 
+These assignments helped me better understand traversal strategies and how to 
+systematically explore structures like graphs. Additionally, implementing Huffman 
+coding and sequence alignment introduced me to how algorithms are applied in areas 
+like compression and bioinformatics, which made the course feel more relevant beyond 
+pure theory.
+That said, not every part of the course was equally engaging. Some of the more 
+mechanical aspects, like working with adjacency matrices or carefully handling 
+edge cases in implementations, felt repetitive at times. While I understand their 
+importance, those sections were less interesting compared to the higher-level ideas 
+or performance comparisons. However, working through those details did improve my 
+ability to write correct and complete implementations.
+In terms of attendance and participation, my attendance was consistent with only a 
+few absences. I participated in class discussions and stayed focused for most of 
+the semester. I completed all assignments and generally took the time to understand 
+both my own solutions and the instructor’s. Reviewing my work against the provided 
+solutions showed that my overall approach and understanding were strong, especially 
+in terms of algorithm structure and correctness. Based on my consistent effort, full 
+completion of assignments, and solid understanding of the material, I believe I have 
+earned an A- in this course.
